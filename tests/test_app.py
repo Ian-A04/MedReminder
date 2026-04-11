@@ -1,5 +1,5 @@
 import pytest
-from app import Medicamento
+from src.app import Medicamento
 
 def test_criacao_medicamento_valido():
     m = Medicamento("Dipirona", "08:00")

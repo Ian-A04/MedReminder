@@ -1,4 +1,3 @@
-import sys
 
 class Medicamento:
     def __init__(self, nome, horario):

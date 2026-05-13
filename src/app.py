@@ -11,6 +11,8 @@ class Medicamento:
 def buscar_cep(cep):
     """Consulta a API ViaCEP para retornar o endereço formatado."""
     try:
+        # Remove caracteres não numéricos
+        cep = "".join(filter(str.isdigit, cep))
         response = requests.get(f"https://viacep.com.br/ws/{cep}/json/", timeout=5)
         if response.status_code == 200:
             dados = response.json()
@@ -30,26 +32,30 @@ def main():
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            nome = input("Nome: ")
+            nome = input("Nome do remédio: ")
             horario = input("Horário (HH:MM): ")
-            cep = input("CEP da farmácia (opcional, aperte Enter para pular): ")
+            cep = input("CEP da farmácia (ou Enter para pular): ")
             
             local = "Não informado"
             if cep.strip():
+                print("Buscando endereço...")
                 local = buscar_cep(cep)
-                print(f"📍 Local localizado: {local}")
+                print(f"📍 Local: {local}")
 
             try:
                 lista.append(Medicamento(nome, horario, local))
-                print("✅ Adicionado com sucesso!")
+                print("✅ Medicamento adicionado!")
             except ValueError as e:
                 print(f"❌ Erro: {e}")
 
         elif opcao == "2":
+            if not lista:
+                print("Nenhum medicamento cadastrado.")
             for m in lista:
                 print(f"[{m.horario}] {m.nome} | Local: {m.localidade}")
         
         elif opcao == "3":
+            print("Encerrando...")
             break
 
 if __name__ == "__main__":

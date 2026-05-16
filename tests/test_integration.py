@@ -1,4 +1,3 @@
-import requests
 from src.app import buscar_cep
 
 def test_buscar_cep_integracao_real():
